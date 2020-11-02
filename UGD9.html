@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>UGD</title>
+        <script src="vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <form align="center">
+            <h1>{{ judul }}</h1>
+                <p> Masukkan Angka 1 - 10</p>
+                <div>
+                    <input v-model="angka.teks" placeholder="1-10">
+                </div>
+                <div>
+                    <button @click="cekAngka()">Submit Angka</button>
+                </div>
+                <div>
+                    {{angka.teks}}<span v-if="angka.status = 'start'"></span>
+                    <span v-else-if="angka.status= 'benar'">adalah Angka yang benar</span>
+                    <span v-else-if="angka.status= 'salah'">adalah Angka yang salah</span>
+                </div>
+            </form>
+            <footer align="center">
+                <p>{{ angka.Nama }} | {{ angka.NPM }} | {{ angka.Kelas }}</p>
+              </footer>
+        </div>
+    </body>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data:{
+                judul: 'Tebak Angka 1-10',
+                angka:{
+                    match: 3,
+                    tries: 3,
+                    status: 'salah',
+                    teks:0,
+                    Nama: 'Randra',
+                    NPM: '180709920',
+                    Kelas: 'PAW B',
+                    disable: 0,
+                },
+            },
+            methods:{
+                cekAngka(){
+                    if(this.angka.teks == this.angka.match){
+                        this.angka.status = 'benar';                       
+                        }
+                    else{
+                        this.angka.status = 'salah';
+                        this.angka.tries--;
+                    }
+                },
+            },
+        });
+    </script>
+</html>
