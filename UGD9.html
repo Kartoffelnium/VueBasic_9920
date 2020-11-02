@@ -8,21 +8,31 @@
     </head>
     <body>
         <div id="app">
-            <form align="center">
+            <div align="center">
             <h1>{{ judul }}</h1>
-                <p> Masukkan Angka 1 - 10</p>
+                <p> Masukkan Angka 1 - 10 Hint: {{angka.match}}</p>
                 <div>
-                    <input v-model="angka.teks" placeholder="1-10">
+                    <input type="number" v-model="angka.teks" placeholder="1-10":disabled="angka.disable==1">
                 </div>
                 <div>
-                    <button @click="cekAngka()">Submit Angka</button>
+                    <button @click="cekAngka()":disabled="angka.disable == 1">Submit Angka</button>
                 </div>
-                <div>
-                    {{angka.teks}}<span v-if="angka.status = 'start'"></span>
-                    <span v-else-if="angka.status= 'benar'">adalah Angka yang benar</span>
-                    <span v-else-if="angka.status= 'salah'">adalah Angka yang salah</span>
-                </div>
-            </form>
+                
+                <span v-if="angka.success == 1">
+                    <p>Angka Benar</p>
+                    <button @click="restart()" :disabled="angka.disable == 0">Coba Lagi</button>
+                </span>
+                <span v-else-if="angka.success == 0">
+                    <span v-if="angka.tries > 0">
+                        <p>Angka Salah, Kesempatan {{ angka.tries }} kali</p>
+                        <button @click="ulang()" :disabled="angka.disable == 0">Coba Lagi</button>
+                    </span>
+                    <span v-else-if="angka.tries == 0">
+                        <p>Angka Salah, Kesempatan Habis</p>
+                        <button @click="restart()" :disabled="angka.disable == 0">Coba Lagi</button>
+                    </span>
+                </span>
+            </div>
             <footer align="center">
                 <p>{{ angka.Nama }} | {{ angka.NPM }} | {{ angka.Kelas }}</p>
               </footer>
@@ -35,7 +45,7 @@
             data:{
                 judul: 'Tebak Angka 1-10',
                 angka:{
-                    match: 3,
+                    match: Math.floor((Math.random() * 10) + 1),
                     tries: 3,
                     status: 'salah',
                     teks:0,
@@ -43,17 +53,34 @@
                     NPM: '180709920',
                     Kelas: 'PAW B',
                     disable: 0,
+                    success: undefined,
+
                 },
             },
             methods:{
                 cekAngka(){
                     if(this.angka.teks == this.angka.match){
-                        this.angka.status = 'benar';                       
+                            this.angka.success =1;                
                         }
                     else{
-                        this.angka.status = 'salah';
+                            this.angka.success =0;
+                        }
+                
+                    this.angka.disable = 1;
+                },
+                ulang(){
+                    if(this.angka.tries>0){
+                        this.angka.disable=0;
                         this.angka.tries--;
+                        this.angka.success=undefined;
+                        this.angka.teks=0;
                     }
+                },
+                restart(){
+                    this.angka.disable=0;
+                    this.angka.tries=3;
+                    this.angka.success=undefined;
+                    this.angka.match= Math.floor((Math.random() * 10) + 1);
                 },
             },
         });
