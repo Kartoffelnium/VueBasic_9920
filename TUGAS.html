@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TUGAS</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="vue.js"></script>   
+    </head>
+    <body>
+        <div id="app">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="well">
+                        <h2>Create a New Todo</h2>
+                            <div class="form-group">
+                                <label for="todoitem">Todo Item</label>
+                                <input type="text" v-model="input" class="form-control" id="todoitem" placeholder="Todo Item" />
+                            </div>
+                            <div class="form-group">
+                                <label for="todoSelect">Priority Level</label>
+                                <select v-model="action">
+                                    <option value="penting">Penting</option>
+                                    <option value="biasa">Biasa</option>
+                                    <option value="tpenting">Tidak penting</option>
+                                  </select>
+                            </div>
+                            <div class="form-group">    
+                                <label for="catatan">Catatan</label>
+                                <input type="text" v-model="catatan" class="form-control" id="catanan" placeholder="catatan"/>
+                            </div>
+                                <button type="button" v-on:click="add()" class="btn btn-default">Create</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>List</h2>
+                    <span class="list-group">
+                        <span v-for="(todo, index) in todos" :key="index" class="list-group-item">
+                            {{ index }}: Nama: {{ todo.input }} | Prioritas: {{ todo.action }} | Catatan: {{ todo.catatan }}
+
+                            <button @click="deleteIndex(index)" class="btn btn-default">{{ del }}</button>
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <footer align="center" >
+                    <p>{{ angka.Nama }} | {{ angka.NPM }} | {{ angka.Kelas }}</p>
+            </footer>
+        </div>
+    </body>
+    <script>
+        new Vue({
+        el: '#app',
+        data: {
+            angka:{
+                Nama: "Randra Joye K",
+                NPM: "180709920",
+                Kelas: "PAW B"
+            },
+            todos:[],
+            input: "",
+            action: 'penting',
+            catatan: "",
+            del: "[X]"
+        },
+        methods: {
+            add() {
+                this.todos.push({
+                    input: this.input,
+                    action: this.action,
+                    catatan: this.catatan
+                });
+                this.input = "";
+                this.action = "";
+                this.catatan = "";
+            },
+            deleteIndex(index){
+                this.todos.splice(index,1);
+            }
+        },
+    });
+    </script>
+</html>
